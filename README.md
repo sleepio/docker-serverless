@@ -25,12 +25,7 @@ Docker image with [Serverless Framework](https://serverless.com/) + [AWS CLI](ht
 - Workdir is set to /opt/workspace
 
 ## Usage
-```bash
-$> docker run --rm -v $(pwd):/opt/workspace ipanousis/serverless deploy
-    
-```
 
-## Example
 ```bash
-$> docker run --rm -v $(pwd):/opt/workspace -e aws_access_key=${AWS_ACCESS_KEY_ID} -e aws_secret_key=${AWS_SECRET_ACCESS_KEY} ipanousis/serverless deploy
+docker run --rm -v $(pwd):/opt/workspace -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e GIT_TOKEN=${GIT_TOKEN} bighealth/serverless deploy
 ```
