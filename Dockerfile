@@ -44,4 +44,5 @@ ENV NODE_PATH=/opt/serverless-npm
 COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["deploy"]
 
