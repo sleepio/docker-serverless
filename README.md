@@ -1,4 +1,4 @@
-# ipanousis/serverless
+# Serverless as a Docker container
 
 Docker image with [Serverless Framework](https://serverless.com/) + [AWS CLI](https://aws.amazon.com/cli/)
 
