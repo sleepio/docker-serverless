@@ -1,4 +1,4 @@
-# ipanousis/serverless
+# Serverless as a Docker container
 
 Docker image with [Serverless Framework](https://serverless.com/) + [AWS CLI](https://aws.amazon.com/cli/)
 
@@ -7,6 +7,8 @@ Use this image to deploy a serverless.yml without installing Serverless or Node 
 ## Languages available
 
 - Python 3.6
+
+In future we anticipate needing multiple tags for our Serverless deploy images, each tag for a particular language. For now the `latest` Docker tag (which is the default one) has the Python 3.6 image.
 
 ## Docker Usage
 
