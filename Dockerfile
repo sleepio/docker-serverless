@@ -7,12 +7,7 @@ RUN apk add --no-cache --update \
     curl \
     unzip \
     bash \
-    git \
-    openssh \
-    make \
-    jq \
-    tzdata \
-    sudo
+    git
 
 RUN apk add --no-cache python3 && \
     python3 -m ensurepip && \
@@ -33,13 +28,11 @@ WORKDIR /opt/workspace
 RUN npm install -g try-thread-sleep
 RUN npm install -g serverless --ignore-scripts spawn-sync
 
-RUN mkdir -p /opt/serverless-npm
+COPY . /opt
 
-COPY . /opt/serverless-npm
+RUN cd /opt && npm install
 
-RUN cd /opt/serverless-npm && npm install
-
-ENV NODE_PATH=/opt/serverless-npm
+ENV NODE_PATH=/opt
 
 COPY entrypoint.sh /
 
