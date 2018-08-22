@@ -22,7 +22,7 @@ You will need to checkout this repository and build the Docker image on your loc
 ## Docker Usage
 
 ```bash
-docker run --rm -v $(pwd):/opt/workspace -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e GIT_TOKEN=${GIT_TOKEN} 067862724523.dkr.ecr.us-east-1.amazonaws.com/serverless deploy
+docker run --rm -v $(pwd):/opt/workspace -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e GIT_TOKEN=${GIT_TOKEN} serverless:latest deploy
 ```
 
 ## Docker Compose Usage
@@ -31,7 +31,7 @@ docker-compose.yml:
 ```
 services:
   remote:
-    image: 067862724523.dkr.ecr.us-east-1.amazonaws.com/serverless
+    image: serverless:latest
     volumes:
       - ./:/opt/workspace
     environment:
