@@ -10,13 +10,14 @@ Use this image to deploy a serverless.yml without installing Serverless or Node 
 
 In future we anticipate needing multiple tags for our Serverless deploy images, each tag for a particular language. For now the `latest` Docker tag (which is the default one) has the Python 3.6 image.
 
-## BigHealth Repository and Getting Access
+## Local Setup
 
-We are using the Container Registry that AWS offers.
+You will need to checkout this repository and build the Docker image on your local.
 
-The domain name for it is a bit long and ugly: 067862724523.dkr.ecr.us-east-1.amazonaws.com
-
-To get access please contact the infrastructure team.
+1. `git checkout git@github.com:sleepio/docker-serverless.git`
+2. `cd docker-serverless`
+3. `docker build -t serverless:latest .`
+4. Proceed to either the Docker Usage section or the Docker Compose Usage section below, depending on whether you are using Docker Compose or not
 
 ## Docker Usage
 
@@ -29,7 +30,7 @@ docker run --rm -v $(pwd):/opt/workspace -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_I
 docker-compose.yml:
 ```
 services:
-  deploy:
+  remote:
     image: 067862724523.dkr.ecr.us-east-1.amazonaws.com/serverless
     volumes:
       - ./:/opt/workspace
@@ -38,7 +39,13 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
 ```
 
-in Shell / script:
+when deploying:
 ```
-docker-compose run deploy
+docker-compose run remote
 ```
+
+when accessing logs:
+```
+docker-compose run remote logs --function myFunction --tail
+```
+
