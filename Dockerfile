@@ -39,5 +39,4 @@ ENV NODE_PATH=/opt
 COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["deploy"]
-
+#CMD ["deploy"]

@@ -17,7 +17,8 @@ You will need to checkout this repository and build the Docker image on your loc
 1. `git checkout git@github.com:sleepio/docker-serverless.git`
 2. `cd docker-serverless`
 3. `docker build -t serverless:latest .`
-4. Proceed to either the Docker Usage section or the Docker Compose Usage section below, depending on whether you are using Docker Compose or not
+4. `cd /your/serverless/compatible/project/dir`
+5. Proceed to either the Docker Usage section or the Docker Compose Usage section below, depending on whether you are using Docker Compose or not
 
 ## Docker Usage
 
@@ -25,23 +26,25 @@ You will need to checkout this repository and build the Docker image on your loc
 docker run --rm -v $(pwd):/opt/workspace -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e GIT_TOKEN=${GIT_TOKEN} serverless:latest deploy
 ```
 
-## Docker Compose Usage
+## Docker Compose Usage for Serverless-compatible Project
 
-docker-compose.yml:
+Add the following service to  docker-compose.yml:
 ```
-services:
-  remote:
-    image: serverless:latest
-    volumes:
-      - ./:/opt/workspace
-    environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+remote:
+image: serverless:latest
+volumes:
+  - ./:/opt/workspace
+environment:
+  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  GIT_TOKEN: ${GIT_TOKEN}
 ```
+
+All commands are run from the project folder
 
 when deploying:
 ```
-docker-compose run remote
+docker-compose run remote deploy
 ```
 
 when accessing logs:
