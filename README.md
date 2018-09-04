@@ -54,35 +54,31 @@ docker-compose run remote logs --function myFunction --tail
 
 ## Troubleshooting
 
-1. Deploying as an AWS User with MFA
-    * If deploying as an AWS user with 2FA, you will need to generate a session token to go along with temporary credentials with an expiration time. After configuring the AWS CLI on your local machine, run the following command to get temporary credentials:
-    ```
-    $ aws sts get-session-token --serial-number arn:aws:iam::173432075717:mfa/<aws-username> --token-code <token-from-MFA-device> --duration-seconds 129600
+### Deploying as an AWS User with MFA
 
-    {
-    "Credentials": {
-        "SecretAccessKey": "secret-access-key",
-        "SessionToken": "temporary-session-token",
-        "Expiration": "expiration-date-time",
-        "AccessKeyId": "access-key-id"
-      }
-    }
+If deploying as an AWS user with 2FA, you will need to generate a session token to go along with temporary credentials with an expiration time. After configuring the AWS CLI on your local machine, run the following command (after filling in the ``aws-username`` and ``token-from-MFA-device`` fields) to get temporary credentials:
+```
+$ aws sts get-session-token --serial-number arn:aws:iam::<aws-account-id>:mfa/<aws-username> --token-code <token-from-MFA-device> --duration-seconds 129600
 
-    $ export AWS_ACCESS_KEY_ID=<access-key-id>
-    $ export AWS_SECRET_ACCESS_KEY=<secret-access-key>
-    $ export AWS_SESSION_TOKEN=<temporary-session-token>
-    ```
+{
+"Credentials": {
+    "SecretAccessKey": "secret-access-key",
+    "SessionToken": "temporary-session-token",
+    "Expiration": "expiration-date-time",
+    "AccessKeyId": "access-key-id"
+  }
+}
+```
+In addition, you will need to add the session token to the remote service `docker-compose.yml`:
 
-    * In addition, you will need to add the session token to the remote service `docker-compose.yml`:
-
-    ```
-    remote:
-      image: serverless:latest
-      volumes:
-        - ./:/opt/workspace
-      environment:
-        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-        AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN} <-------------------------
-        GIT_TOKEN: ${GIT_TOKEN}
-    ```
+```
+remote:
+  image: serverless:latest
+  volumes:
+    - ./:/opt/workspace
+  environment:
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN} <-------------------------
+    GIT_TOKEN: ${GIT_TOKEN}
+```
