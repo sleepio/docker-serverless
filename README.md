@@ -56,7 +56,7 @@ docker-compose run remote logs --function myFunction --tail
 
 ### Deploying as an AWS User with MFA
 
-If deploying as an AWS user with 2FA, you will need to generate a session token to go along with temporary credentials with an expiration time. After configuring the AWS CLI on your local machine, run the following command (after filling in the ``aws-username`` and ``token-from-MFA-device`` fields) to get temporary credentials:
+If deploying as an AWS user with 2FA, you will need to generate a session token to go along with temporary credentials with an expiration time. After configuring the AWS CLI on your local machine, run the following commands (after filling in the ``aws-account-id`` (173432075717 for ``bhdevacct``), ``aws-username`` and ``token-from-MFA-device`` fields) to get temporary credentials and set them as environment variables:
 ```
 $ aws sts get-session-token --serial-number arn:aws:iam::<aws-account-id>:mfa/<aws-username> --token-code <token-from-MFA-device> --duration-seconds 129600
 
@@ -68,6 +68,11 @@ $ aws sts get-session-token --serial-number arn:aws:iam::<aws-account-id>:mfa/<a
     "AccessKeyId": "access-key-id"
   }
 }
+
+$ export AWS_ACCESS_KEY_ID=<access-key-id>
+$ export AWS_SECRET_ACCESS_KEY=<secret-access-key>
+$ export AWS_SESSION_TOKEN=<temporary-session-token>
+
 ```
 In addition, you will need to add the session token to the remote service `docker-compose.yml`:
 
