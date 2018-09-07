@@ -9,8 +9,7 @@ RUN apk add --no-cache --update \
     bash \
     git
 
-RUN apk add postgresql-libs && \
-    apk add --virtual .build-deps gcc musl-dev postgresql-dev && \
+RUN apk add --no-cache docker && \
     apk add --no-cache python3-dev && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
@@ -22,19 +21,19 @@ RUN apk add postgresql-libs && \
 RUN pip install --upgrade pip
 RUN pip install awscli
 
-RUN mkdir -p /opt/workspace
+RUN mkdir -p /var/task
 RUN rm /var/cache/apk/*
 
-WORKDIR /opt/workspace
+WORKDIR /var/task
 
 RUN npm install -g try-thread-sleep
 RUN npm install -g serverless --ignore-scripts spawn-sync
 
-COPY . /opt
+COPY . /var
 
-RUN cd /opt && npm install
+RUN cd /var && npm install
 
-ENV NODE_PATH=/opt
+ENV NODE_PATH=/var
 
 COPY entrypoint.sh /
 
