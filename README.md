@@ -87,3 +87,27 @@ remote:
     AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN} <-------------------------
     GIT_TOKEN: ${GIT_TOKEN}
 ```
+
+### Unable to find image 'remote:latest' locally
+
+If you get the following error:
+```
+Unable to find image 'remote:latest' locally
+docker: Error response from daemon: pull access denied for remote, repository does not exist or may require 'docker login'.
+See 'docker run --help'.
+```
+make sure you're running ``docker-compose run remote deploy`` and not ``docker run remote deploy``.
+
+### Module initialization error
+
+If you get the following error when deploying: 
+```
+{
+    "errorMessage": "module initialization error"
+}
+ 
+  Error --------------------------------------------------
+ 
+  Invoked function failed
+```
+make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy. 
