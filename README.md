@@ -56,7 +56,7 @@ docker-compose run remote logs --function myFunction --tail
 
 ### Deploying as an AWS User with MFA
 
-If deploying as an AWS user with 2FA, you will need to generate a session token to go along with temporary credentials with an expiration time. After configuring the AWS CLI on your local machine, run the following commands (after filling in the ``aws-account-id`` (173432075717 for ``bhdevacct``), ``aws-username`` and ``token-from-MFA-device`` fields) to get temporary credentials and set them as environment variables:
+If deploying as an AWS user with 2FA, you will need to generate a session token to go along with temporary credentials with an expiration time. After configuring the AWS CLI on your local machine, run the following commands (after filling in the ``aws-account-id``, ``aws-username`` and ``token-from-MFA-device`` fields) to get temporary credentials and set them as environment variables:
 ```
 $ aws sts get-session-token --serial-number arn:aws:iam::<aws-account-id>:mfa/<aws-username> --token-code <token-from-MFA-device> --duration-seconds 129600
 
@@ -87,3 +87,27 @@ remote:
     AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN} <-------------------------
     GIT_TOKEN: ${GIT_TOKEN}
 ```
+
+### Unable to find image 'remote:latest' locally
+
+If you get the following error:
+```
+Unable to find image 'remote:latest' locally
+docker: Error response from daemon: pull access denied for remote, repository does not exist or may require 'docker login'.
+See 'docker run --help'.
+```
+make sure you're running ``docker-compose run remote deploy`` and not ``docker run remote deploy``.
+
+### Module initialization error
+
+If you get the following error when deploying: 
+```
+{
+    "errorMessage": "module initialization error"
+}
+ 
+  Error --------------------------------------------------
+ 
+  Invoked function failed
+```
+make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy. 
