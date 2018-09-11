@@ -16,7 +16,7 @@ You will need to checkout this repository and build the Docker image on your loc
 
 1. `git checkout git@github.com:sleepio/docker-serverless.git`
 2. `cd docker-serverless`
-3. `docker build -t serverless:latest .`
+3. `./build`
 4. `cd /your/serverless/compatible/project/dir`
 5. Proceed to either the Docker Usage section or the Docker Compose Usage section below, depending on whether you are using Docker Compose or not
 
