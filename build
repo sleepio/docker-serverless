@@ -1,2 +1,4 @@
 #!/bin/bash
+
+[ -e get-env.sh ] && . get-env.sh DEPLOY__
 docker build -t serverless:latest .
