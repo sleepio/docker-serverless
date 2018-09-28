@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Build a config/env file with informative key-values about the environment
+# Usage: ./get-enh.sh [context] [optional: file extension | default: yml] [optional: env file dir | default: $PWD]
+
+# Replaces/Creates a .env.<context>.<extension> in the $PWD or provided dir path
+
 exec 2> /dev/null
 
 if [ -z "$1" ]
@@ -9,13 +14,18 @@ if [ -z "$1" ]
 fi
 
 CONTEXT=$1
+EXTENSION=${2:-yml} # default to YAML if no arg
+[ $EXTENSION = "env" ] && SEPARATOR="=" || SEPARATOR=": "
+ENV_PREFIX="$CONTEXT"__
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ENV_FILE="$SCRIPT_DIR/$CONTEXT.env"
+ENV_FILE_DIR=${3:-$SCRIPTDIR}
+ENV_FILE="$ENV_FILE_DIR/.env.$CONTEXT.$EXTENSION"
 CLEAN_TREE="unknown"
 
 main()
 {
     [ -e $ENV_FILE ] && rm $ENV_FILE
+
     is_tree_clean $SCRIPT_DIR
 
     # Old versions of bash (below 4) do not support associative arrays, here's a
@@ -45,11 +55,11 @@ main()
         VALUE=$(eval $COMMAND) && VALID_OUTPUT=1
 
         if [ "$VALID_OUTPUT" -eq "1" ]; then
-            KEY_VALUE="$CONTEXT$KEY=$VALUE"
+            ENV_KEY_VALUE="$ENV_PREFIX$KEY$SEPARATOR$VALUE"
         else
-            KEY_VALUE="$CONTEXT$KEY=unkown"
+            ENV_KEY_VALUE="$ENV_PREFIX$KEY$SEPARATOR"unkown
         fi
-        echo $KEY_VALUE >> $ENV_FILE
+        echo $ENV_KEY_VALUE >> $ENV_FILE
     done
 }
 
