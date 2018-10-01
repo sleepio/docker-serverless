@@ -15,22 +15,23 @@ fi
 
 CONTEXT=$1
 EXTENSION=${2:-yml} # default to YAML if no arg
-[ $EXTENSION = "env" ] && SEPARATOR="=" || SEPARATOR=": "
-ENV_PREFIX="$CONTEXT"__
+[ ${EXTENSION} = "env" ] && SEPARATOR="=" || SEPARATOR=": "
+ENV_PREFIX="${CONTEXT}__"
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ENV_FILE_DIR=${3:-$SCRIPTDIR}
-ENV_FILE="$ENV_FILE_DIR/.env.$CONTEXT.$EXTENSION"
+ENV_FILE_DIR=${3:-$SCRIPT_DIR}
+ENV_FILE="${ENV_FILE_DIR}/.env.${CONTEXT}.${EXTENSION}"
 CLEAN_TREE="unknown"
 
 main()
 {
-    [ -e $ENV_FILE ] && rm $ENV_FILE
+    [ -e ${ENV_FILE} ] && rm ${ENV_FILE}
 
-    is_tree_clean $SCRIPT_DIR
+    is_tree_clean ${SCRIPT_DIR}
 
     # Old versions of bash (below 4) do not support associative arrays, here's a
     # workaround using chars as array index for compatability across work stations
     array=(
+        'badcmd::lasf'
         'timestamp::date +%s'     # unix timestamp in seconds
         'hostname::hostname'
         'whoami::whoami'
@@ -52,14 +53,14 @@ main()
         VALID_OUTPUT=0
         KEY="${index%%::*}"
         COMMAND="${index##*::}"
-        VALUE=$(eval $COMMAND) && VALID_OUTPUT=1
+        VALUE=$(eval ${COMMAND}) && VALID_OUTPUT=1
 
-        if [ "$VALID_OUTPUT" -eq "1" ]; then
-            ENV_KEY_VALUE="$ENV_PREFIX$KEY$SEPARATOR$VALUE"
+        if [ "${VALID_OUTPUT}" -eq "1" ]; then
+            ENV_KEY_VALUE="${ENV_PREFIX}${KEY}${SEPARATOR}${VALUE}"
         else
-            ENV_KEY_VALUE="$ENV_PREFIX$KEY$SEPARATOR"unkown
+            ENV_KEY_VALUE="${ENV_PREFIX}${KEY}${SEPARATOR}unkown"
         fi
-        echo $ENV_KEY_VALUE >> $ENV_FILE
+        echo ${ENV_KEY_VALUE} >> ${ENV_FILE}
     done
 }
 
@@ -67,7 +68,7 @@ is_tree_clean()
 {
     git_status=`git -C $1 status 2> /dev/null`
     clean_pattern="working tree clean|working directory clean"
-    if [ ! -z "$git_status" ] && [[ ! $git_status =~ $clean_pattern ]]; then
+    if [ ! -z "${git_status}" ] && [[ ! ${git_status} =~ ${clean_pattern} ]]; then
         CLEAN_TREE="false"
     else
         CLEAN_TREE="true"
