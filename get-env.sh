@@ -31,7 +31,6 @@ main()
     # Old versions of bash (below 4) do not support associative arrays, here's a
     # workaround using chars as array index for compatability across work stations
     array=(
-        'badcmd::lasf'
         'timestamp::date +%s'     # unix timestamp in seconds
         'hostname::hostname'
         'whoami::whoami'
