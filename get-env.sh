@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Build a config/env file with informative key-values about the environment
-# Usage: ./get-enh.sh [context] [optional: file extension | default: yml] [optional: env file dir | default: $PWD]
-
 # Replaces/Creates a .env.<context>.<extension> in the $PWD or provided dir path
-
-exec 2> /dev/null
+#
+# Usage: ./get-env.sh [context] [optional: file extension | default: yml] [optional: env file dir | default: $PWD]
+#
+# TODO if optionality and no order of args starts to matter, introduce flags and case .. esac
 
 if [ -z "$1" ]
   then
