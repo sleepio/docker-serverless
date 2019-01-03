@@ -40,16 +40,21 @@ environment:
   GIT_TOKEN: ${GIT_TOKEN}
 ```
 
+Add the following in your bashrc:
+```sh
+alias srv="docker-compose run -e deploy__branch="$(git rev-parse --abbrev-ref HEAD)" -e deploy__HEAD="$(git rev-parse HEAD)" -e deploy__timestamp="$(date +%s)" -e deploy__whoami="$(whoami)" remote"
+```
+
 All commands are run from the project folder
 
 when deploying:
-```
-docker-compose run remote deploy
+```sh
+$ srv deploy
 ```
 
 when accessing logs:
-```
-docker-compose run remote logs --function myFunction --tail
+```sh
+$ src logs --function myFunction --tail
 ```
 
 ## Troubleshooting
@@ -100,14 +105,14 @@ make sure you're running ``docker-compose run remote deploy`` and not ``docker r
 
 ### Module initialization error
 
-If you get the following error when deploying: 
+If you get the following error when deploying:
 ```
 {
     "errorMessage": "module initialization error"
 }
- 
+
   Error --------------------------------------------------
- 
+
   Invoked function failed
 ```
-make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy. 
+make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy.
