@@ -54,7 +54,7 @@ $ srv deploy
 
 when accessing logs:
 ```sh
-$ src logs --function myFunction --tail
+$ srv logs --function myFunction --tail
 ```
 
 ## Troubleshooting
