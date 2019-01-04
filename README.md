@@ -42,7 +42,15 @@ environment:
 
 Add the following in your bashrc:
 ```sh
-alias srv="docker-compose run -e deploy__branch="$(git rev-parse --abbrev-ref HEAD)" -e deploy__HEAD="$(git rev-parse HEAD)" -e deploy__timestamp="$(date +%s)" -e deploy__whoami="$(whoami)" remote"
+srv() {
+  docker-compose run \
+    -e deploy__remote_url="$(git config --get remote.origin.url)" \
+    -e deploy__branch="$(git rev-parse --abbrev-ref HEAD)" \
+    -e deploy__HEAD="$(git rev-parse HEAD)" \
+    -e deploy__timestamp="$(date +%s)" \
+    -e deploy__whoami="$(whoami)" \
+    remote $@;
+}
 ```
 
 All commands are run from the project folder

@@ -6,7 +6,8 @@ sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOK
 if [[ $@ = *"--no-publish"* ]]; then export NO_PUBLISH=true; else export NO_PUBLISH=false; fi
 
 if [[ ! $@ = *"--no-env"* ]]; then
-    echo "deploy__timestamp: ${deploy__timestamp:-unknown}" > /var/task/.env.yml
+    echo "deploy__remote_url: ${deploy__remote_url:-unknown}" > /var/task/.env.yml
+    echo "deploy__timestamp: ${deploy__timestamp:-unknown}" >> /var/task/.env.yml
     echo "deploy__whoami: ${deploy__whoami:-unknown}" >> /var/task/.env.yml
     echo "deploy__branch: ${deploy__branch:-unknown}" >> /var/task/.env.yml
     echo "deploy__HEAD: ${deploy__HEAD:-unknown}" >> /var/task/.env.yml
