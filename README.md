@@ -65,6 +65,14 @@ when accessing logs:
 $ srv logs --function myFunction --tail
 ```
 
+## Env file
+
+When running the `srv deploy` command (not `remove`, etc), the entrypoint script will:
+- capture the `deploy__*` environment variables passed by the `srv` functon and write them to a new general .env file
+- if the `${PROJECT_GENERATION_ENV_FILE}` (CF cookiecutter postgen context) exists, append its variables to the general .env file.
+- if the`${DOCKER_SERVERLESS_BUILD_ENV_FILE}` (docker serverless ./build context) exists, append its variables to the general .env file.
+- this file is then used by CF's `BaseService.get_env` method to return useful information about the service.
+
 ## Troubleshooting
 
 ### Deploying as an AWS User with MFA
