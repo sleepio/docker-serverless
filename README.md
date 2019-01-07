@@ -40,17 +40,38 @@ environment:
   GIT_TOKEN: ${GIT_TOKEN}
 ```
 
+Add the following in your bashrc:
+```sh
+srv() {
+  docker-compose run \
+    -e deploy__remote_url="$(git config --get remote.origin.url)" \
+    -e deploy__branch="$(git rev-parse --abbrev-ref HEAD)" \
+    -e deploy__HEAD="$(git rev-parse HEAD)" \
+    -e deploy__timestamp="$(date +%s)" \
+    -e deploy__whoami="$(whoami)" \
+    remote $@;
+}
+```
+
 All commands are run from the project folder
 
 when deploying:
-```
-docker-compose run remote deploy
+```sh
+$ srv deploy
 ```
 
 when accessing logs:
+```sh
+$ srv logs --function myFunction --tail
 ```
-docker-compose run remote logs --function myFunction --tail
-```
+
+## Env file
+
+When running the `srv deploy` command (not `remove`, etc), the entrypoint script will:
+- capture the `deploy__*` environment variables passed by the `srv` functon and write them to a new general .env file
+- if the `${PROJECT_GENERATION_ENV_FILE}` (CF cookiecutter postgen context) exists, append its variables to the general .env file.
+- if the`${DOCKER_SERVERLESS_BUILD_ENV_FILE}` (docker serverless ./build context) exists, append its variables to the general .env file.
+- this file is then used by CF's `BaseService.get_env` method to return useful information about the service.
 
 ## Troubleshooting
 
@@ -100,14 +121,14 @@ make sure you're running ``docker-compose run remote deploy`` and not ``docker r
 
 ### Module initialization error
 
-If you get the following error when deploying: 
+If you get the following error when deploying:
 ```
 {
     "errorMessage": "module initialization error"
 }
- 
+
   Error --------------------------------------------------
- 
+
   Invoked function failed
 ```
-make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy. 
+make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy.
