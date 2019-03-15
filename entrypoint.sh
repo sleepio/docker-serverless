@@ -32,8 +32,4 @@ if [[ ! $@ = *"--no-env"* ]] && [[ "$1" = "deploy" ]]; then
     if [ -e ${PROJECT_GENERATION_ENV_FILE} ]; then cat ${PROJECT_GENERATION_ENV_FILE} >> ${ENV_FILE}; fi
 fi
 
-if [[ "${DEPLOY_ENV}" = "codebuild-serverless-ecr" ]]; then
-    /usr/local/bin/serverless deploy -s $STAGE --verbose
-else
-    /usr/local/bin/serverless $@
-fi
+/usr/local/bin/serverless $@
