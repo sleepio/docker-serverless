@@ -4,6 +4,15 @@ ENV_FILE="/var/task/.env.yml"
 DOCKER_SERVERLESS_BUILD_ENV_FILE="/var/.env.docker_serverless_build.yml"
 PROJECT_GENERATION_ENV_FILE="/var/task/.env.project_generation.yml"
 
+# For now this env var is exported within the serverless container during codebuild
+if [[ "${DEPLOY_ENV}" = "codebuild-serverless-ecr" ]]; then
+    export deploy__remote_url="$(git config --get remote.origin.url)"
+    export deploy__branch="$(git rev-parse --abbrev-ref HEAD)"
+    export deploy__HEAD="$(git rev-parse HEAD)"
+    export deploy__timestamp="$(date +%s)"
+    export deploy__whoami="${DEPLOY_ENV}"
+fi
+
 sed -i "s|\${bindPath}:|${SERVICE_PATH}:|g" /var/node_modules/serverless-python-requirements/lib/pip.js
 sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOKEN}'); if \(options.dockerSsh\)/g" /var/node_modules/serverless-python-requirements/lib/pip.js
 
@@ -23,4 +32,8 @@ if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     if [ -e ${PROJECT_GENERATION_ENV_FILE} ]; then cat ${PROJECT_GENERATION_ENV_FILE} >> ${ENV_FILE}; fi
 fi
 
-/usr/local/bin/serverless $@
+if [[ "${DEPLOY_ENV}" = "codebuild-serverless-ecr" ]]; then
+    /usr/local/bin/serverless deploy -s $STAGE --verbose
+else
+    /usr/local/bin/serverless $@
+fi
