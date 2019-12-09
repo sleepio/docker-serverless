@@ -9,6 +9,8 @@ sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOK
 
 if [[ $@ = *"--no-publish"* ]]; then export NO_PUBLISH=true; else export NO_PUBLISH=false; fi
 
+if [[ $@ = *"--int-test"* ]]; then export INT_TEST=true; else export INT_TEST=false; fi
+
 if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     echo "deploy__remote_url: ${deploy__remote_url:-unknown}" > ${ENV_FILE}
     echo "deploy__timestamp: ${deploy__timestamp:-unknown}" >> ${ENV_FILE}
