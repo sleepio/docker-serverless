@@ -12,9 +12,9 @@ In future we anticipate needing multiple tags for our Serverless deploy images, 
 
 ## Local Setup
 
-You will need to checkout this repository and build the Docker image on your local.
+You will need to clone this repository and build the Docker image on your local.
 
-1. `git checkout git@github.com:sleepio/docker-serverless.git`
+1. `git clone git@github.com:sleepio/docker-serverless.git`
 2. `cd docker-serverless`
 3. `./build`
 4. `cd /your/serverless/compatible/project/dir`
