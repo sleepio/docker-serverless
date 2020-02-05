@@ -9,6 +9,7 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
+      - ls -al ${CODEBUILD_SRC_DIR}
       - (cd ${CODEBUILD_SRC_DIR}; . get-env.sh docker_serverless_build)
       - docker build -t $REPOSITORY_URI:latest ${CODEBUILD_SRC_DIR}
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
