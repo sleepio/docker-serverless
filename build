@@ -1,4 +1,4 @@
 #!/bin/bash
 
 [ -e get-env.sh ] && . get-env.sh docker_serverless_build
-docker build -t serverless:latest .
+docker build -t docker-serverless:latest .
