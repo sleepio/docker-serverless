@@ -27,7 +27,10 @@ RUN rm /var/cache/apk/*
 WORKDIR /var/task
 
 RUN npm install -g try-thread-sleep
-RUN npm install -g serverless --ignore-scripts spawn-sync
+# 1.70.1 broke role creation, so pin to 1.70 until resolved
+# https://github.com/serverless/serverless/pull/7357 changed names -> leak
+# https://github.com/serverless/serverless/pull/7694 changed back -> collision
+RUN npm install -g serverless@1.70.0 --ignore-scripts spawn-sync
 
 COPY . /var
 
