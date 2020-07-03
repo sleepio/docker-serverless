@@ -10,7 +10,7 @@ RUN apk add --no-cache --update \
     git
 
 RUN apk add --no-cache docker && \
-    apk add --no-cache python3-dev && \
+    apk add --no-cache python3-dev@3.6-stable && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --upgrade pip setuptools && \
