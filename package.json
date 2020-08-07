@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "serverless-python-requirements": "4.1.1",
-    "serverless-plugin-scripts": "^1.0.2"
+    "serverless-plugin-scripts": "1.0.2",
+    "serverless-plugin-datadog": "1.1.0"
   },
   "devDependencies": {},
   "scripts": {
