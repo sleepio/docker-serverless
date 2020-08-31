@@ -15,6 +15,7 @@ if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     echo "deploy__whoami: ${deploy__whoami:-unknown}" >> ${ENV_FILE}
     echo "deploy__branch: ${deploy__branch:-unknown}" >> ${ENV_FILE}
     echo "deploy__HEAD: ${deploy__HEAD:-unknown}" >> ${ENV_FILE}
+    echo "SETUPTOOLS_USE_DISTUTILS: ${SETUPTOOLS_USE_DISTUTILS:-stdlib}" >> ${ENV_FILE}
 
     echo "Merging .env.docker_serverless_build.yml and .env.project_generation.yml into .env.yml..."
     echo
