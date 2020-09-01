@@ -24,7 +24,10 @@ if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     # we need to use sed to do this because not all functions are configured to use the env variables from the files
     # The hack here is that we assume that every file has a `core_cache` env var and we put the SETUPTOOLS_USE_DISTUTILS after
     # it
-    sed -i '/core_cache:.*/a \ \ \ \ SETUPTOOLS_USE_DISTUTILS:\ stdlib' src/serverless.yml
+    if [ -z "$SETUPTOOLS_USE_DISTUTILS" ]
+    then
+        sed -i '/core_cache:.*/a \ \ \ \ SETUPTOOLS_USE_DISTUTILS:\ stdlib' src/serverless.yml
+    fi
 
     echo "Merging .env.docker_serverless_build.yml and .env.project_generation.yml into .env.yml..."
     echo
