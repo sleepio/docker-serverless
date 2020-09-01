@@ -22,7 +22,7 @@ if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     # https://github.com/pypa/setuptools/blob/04e3df22df840c6bb244e9b27bc56750c44b7c85/_distutils_hack/__init__.py#L36
 
     # we need to use sed to do this because not all functions are configured to use the env variables from the files
-    # The hack here is that we assume that every file has a `SERVICE_CLUSTER_NAME` env var and we put the SETUPTOOLS_USE_DISTUTILS after
+    # The hack here is that we assume that every file has a `project_config_dir` env var and we put the SETUPTOOLS_USE_DISTUTILS after
     # it
     if [ -z "$SETUPTOOLS_USE_DISTUTILS" ]
     then
