@@ -26,7 +26,8 @@ if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     # it
     if [ -z "$SETUPTOOLS_USE_DISTUTILS" ]
     then
-        sed -i '/core_cache:.*/a \ \ \ \ SETUPTOOLS_USE_DISTUTILS:\ stdlib' src/serverless.yml
+        echo "Adding SETUPTOOLS_USE_DISTUTILS var into serverless yml"
+        sed -i '/core_cache:.*/a \ \ \ \ SETUPTOOLS_USE_DISTUTILS:\ stdlib' serverless.yml
     fi
 
     echo "Merging .env.docker_serverless_build.yml and .env.project_generation.yml into .env.yml..."
