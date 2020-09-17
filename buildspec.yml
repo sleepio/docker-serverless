@@ -6,6 +6,7 @@ phases:
       - COMMIT_HASH=$(git rev-parse --short HEAD)
       - IMAGE_REPO_URI=${IMAGE_REPO_PREFIX}${IMAGE_REPO_NAME}
       - $(aws ecr get-login --no-include-email)
+      - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD || true
   build:
     commands:
       - ${CODEBUILD_SRC_DIR}/get-env.sh docker_serverless_build
