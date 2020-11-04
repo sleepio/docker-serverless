@@ -24,7 +24,7 @@ if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
     # we need to use sed to do this because not all functions are configured to use the env variables from the files
     # The hack here is that we assume that every file has a `project_config_dir` env var and we put the SETUPTOOLS_USE_DISTUTILS after
     # it
-    if [ -z "$SETUPTOOLS_USE_DISTUTILS" ]
+    if [ -z "$SETUPTOOLS_USE_DISTUTILS" ] && ! grep SETUPTOOLS_USE_DISTUTILS serverless.yml > /dev/null
     then
         echo "Adding SETUPTOOLS_USE_DISTUTILS var into serverless yml"
         sed -i '/project_config_dir:.*/a \ \ \ \ SETUPTOOLS_USE_DISTUTILS:\ stdlib' serverless.yml
