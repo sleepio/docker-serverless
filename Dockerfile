@@ -27,7 +27,7 @@ RUN rm /var/cache/apk/*
 WORKDIR /var/task
 
 RUN npm install -g try-thread-sleep
-RUN npm install -g serverless@1.76.1 --ignore-scripts spawn-sync
+RUN npm install -g serverless@1.73.1 --ignore-scripts spawn-sync
 
 COPY . /var
 
