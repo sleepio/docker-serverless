@@ -1,4 +1,10 @@
 #!/bin/bash
 
 [ -e get-env.sh ] && . get-env.sh docker_serverless_build
-docker build -t serverless:latest -t docker-serverless:latest .
+
+SERVERLESS_FRAMEWORK_VERSION=$(cat serverless_framework_version)
+
+docker build \
+	--build-arg SERVERLESS_FRAMEWORK_VERSION=${SERVERLESS_FRAMEWORK_VERSION} \
+	-t serverless:${SERVERLESS_FRAMEWORK_VERSION} \
+	-t docker-serverless:${SERVERLESS_FRAMEWORK_VERSION} .
