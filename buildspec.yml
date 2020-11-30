@@ -1,17 +1,5 @@
 version: 0.2
 
-batch:
-  fast-fail: false
-  build-list:
-      - identifier: latest
-        env:
-          IMAGE_TAG: latest
-          SERVERLESS_VERSION: 1.70.0
-      - identifier: 2.13.0
-        env:
-          IMAGE_TAG: 2.13.0
-          SERVERLESS_VERSION: 2.13.0
-
 phases:
   pre_build:
     commands:
@@ -22,8 +10,10 @@ phases:
   build:
     commands:
       - ${CODEBUILD_SRC_DIR}/get-env.sh docker_serverless_build
-      - docker build --build-arg SERVERLESS_VERSION=${SERVERLESS_VERSION} ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:${COMMIT_HASH} --tag ${IMAGE_REPO_URI}:${IMAGE_TAG}
+      - docker build --build-arg SERVERLESS_VERSION=1.70.0 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:1.70.0 --tag ${IMAGE_REPO_URI}:latest
+      - docker build --build-arg SERVERLESS_VERSION=2.13.0 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:2.13.0
   post_build:
     commands:
-      - docker push ${IMAGE_REPO_URI}:${COMMIT_HASH}
-      - docker push ${IMAGE_REPO_URI}:${IMAGE_TAG}
+      - docker push ${IMAGE_REPO_URI}:1.70.0
+      - docker push ${IMAGE_REPO_URI}:latest
+      - docker push ${IMAGE_REPO_URI}:2.13.0
