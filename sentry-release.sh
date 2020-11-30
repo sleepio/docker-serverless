@@ -1,0 +1,1 @@
+./node_modules/.bin/sentry-cli releases new "$CODEBUILD_RESOLVED_SOURCE_VERSION"
