@@ -1,5 +1,11 @@
 FROM node:alpine
 MAINTAINER Yannis Panousis <yannis@bighealth.com>
+
+# 1.70.1 broke role creation, so pin to 1.70 until resolved
+# https://github.com/serverless/serverless/pull/7357 changed names -> leak
+# https://github.com/serverless/serverless/pull/7694 changed back -> collision
+ARG SERVERLESS_VERSION=1.70.0
+
 RUN apk update
 RUN apk upgrade
 RUN apk add ca-certificates && update-ca-certificates
@@ -27,10 +33,7 @@ RUN rm /var/cache/apk/*
 WORKDIR /var/task
 
 RUN npm install -g try-thread-sleep
-# 1.70.1 broke role creation, so pin to 1.70 until resolved
-# https://github.com/serverless/serverless/pull/7357 changed names -> leak
-# https://github.com/serverless/serverless/pull/7694 changed back -> collision
-RUN npm install -g serverless@1.70.0 --ignore-scripts spawn-sync
+RUN npm install -g serverless@${SERVERLESS_VERSION} --ignore-scripts spawn-sync
 
 COPY . /var
 
