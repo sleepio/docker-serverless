@@ -5,7 +5,7 @@ phases:
     commands:
       - COMMIT_HASH=$(git rev-parse --short HEAD)
       - IMAGE_REPO_URI=${IMAGE_REPO_PREFIX}${IMAGE_REPO_NAME}
-      - $(aws ecr get-login --no-include-email)
+      - docker login -u AWS -p $(aws ecr get-login-password) https://$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com || $(aws ecr get-login --no-include-email)
       - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD || true
   build:
     commands:
