@@ -7,7 +7,8 @@
     "serverless-python-requirements": "4.1.1",
     "serverless-plugin-scripts": "1.0.2",
     "serverless-plugin-datadog": "2.4.0",
-    "serverless-plugin-log-subscription": "1.4.0"
+    "serverless-plugin-log-subscription": "1.4.0",
+    "serverless-plugin-stage-variables": "1.9.5"
   },
   "devDependencies": {},
   "scripts": {
