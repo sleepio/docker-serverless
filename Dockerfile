@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:15.3.0-alpine
 MAINTAINER Yannis Panousis <yannis@bighealth.com>
 
 # 1.70.1 broke role creation, so pin to 1.70 until resolved
