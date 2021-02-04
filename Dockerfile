@@ -24,8 +24,8 @@ RUN apk add --no-cache docker && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     rm -r /root/.cache
 
-RUN pip install --upgrade pip
-RUN pip install awscli
+RUN pip install --upgrade pip==20.2.2
+RUN pip install awscli==1.19.1
 
 RUN mkdir -p /var/task
 RUN rm /var/cache/apk/*
