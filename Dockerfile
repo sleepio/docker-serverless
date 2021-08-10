@@ -1,23 +1,24 @@
-FROM node:15.3.0-alpine
-MAINTAINER Yannis Panousis <yannis@bighealth.com>
+FROM node:16-alpine
 
 # 1.70.1 broke role creation, so pin to 1.70 until resolved
 # https://github.com/serverless/serverless/pull/7357 changed names -> leak
 # https://github.com/serverless/serverless/pull/7694 changed back -> collision
 ARG SERVERLESS_VERSION=1.70.0
 
-RUN apk update
-RUN apk upgrade
-RUN apk add ca-certificates && update-ca-certificates
 RUN apk add --no-cache --update \
+    ca-certificates \
     curl \
     unzip \
     bash \
-    git
+    git \
+    docker \
+    python3-dev
 
-RUN apk add --no-cache docker && \
-    apk add --no-cache python3-dev && \
-    python3 -m ensurepip && \
+RUN rm -rf /var/cache/apk/*
+
+RUN update-ca-certificates
+
+RUN python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --upgrade pip setuptools==47.3.1 && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
@@ -28,7 +29,6 @@ RUN pip install --upgrade pip
 RUN pip install awscli
 
 RUN mkdir -p /var/task
-RUN rm /var/cache/apk/*
 
 WORKDIR /var/task
 
