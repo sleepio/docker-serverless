@@ -12,8 +12,11 @@ phases:
       - ${CODEBUILD_SRC_DIR}/get-env.sh docker_serverless_build
       - docker build --build-arg SERVERLESS_VERSION=1.70.0 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:1.70.0 --tag ${IMAGE_REPO_URI}:latest
       - docker build --build-arg SERVERLESS_VERSION=2.13.0 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:2.13.0
+      - docker build --build-arg SERVERLESS_VERSION=2.13.0 --build-arg PLUGIN_AWS_ALERTS=1 -t docker-serverless:2.13.0-alerts .
+
   post_build:
     commands:
       - docker push ${IMAGE_REPO_URI}:1.70.0
       - docker push ${IMAGE_REPO_URI}:latest
       - docker push ${IMAGE_REPO_URI}:2.13.0
+      - docker push ${IMAGE_REPO_URI}:2.13.0-alerts

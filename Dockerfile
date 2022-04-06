@@ -6,6 +6,9 @@ MAINTAINER Yannis Panousis <yannis@bighealth.com>
 # https://github.com/serverless/serverless/pull/7694 changed back -> collision
 ARG SERVERLESS_VERSION=1.70.0
 
+# Set 1 for installing serverless-plugin-aws-alerts via npm
+ARG PLUGIN_AWS_ALERTS=0
+
 RUN apk update
 RUN apk upgrade
 RUN apk add ca-certificates && update-ca-certificates
@@ -38,6 +41,8 @@ RUN npm install -g serverless@${SERVERLESS_VERSION} --ignore-scripts spawn-sync
 COPY . /var
 
 RUN cd /var && npm install
+
+RUN [ "${PLUGIN_AWS_ALERTS}" = "1" ] && npm install -g serverless-plugin-aws-alerts || :
 
 ENV NODE_PATH=/var
 
