@@ -132,7 +132,3 @@ If you get the following error when deploying:
   Invoked function failed
 ```
 make sure the role created by CloudFormation (of format ``<ServiceName>-<stage>-us-west-2-lambdaRole``) has the ``SSMDynamicSettings`` permission attached to it. Attach, wait for ~10 min, and re-deploy.
-
-### Need for watching CodeBuild builds
-
-Due to an `npm` issue (https://github.com/npm/cli/issues/3078) , `npm install` needs to be retried until it is successful. since the loop is currently infinite, it is strongly advised that you watch the specific build in CodeBuild until it succeeds; it should usually finish within a couple iterations. If retries go on too long, manually stop the build and troubleshoot again.
