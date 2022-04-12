@@ -36,8 +36,13 @@ WORKDIR /var/task
 
 RUN npm install -g try-thread-sleep
 
-# NOTE (TS): Added retries to circumvent the issue discussed in
-# https://github.com/npm/cli/issues/3078.
+# NOTE (TS, April 11, 2022): Added retries to circumvent the socket timeout
+# issue on concurrent npm package downloads discussed in
+# https://github.com/npm/cli/issues/3078. The ticket is marked closed as of
+# writing of this comment, but the actual issue remains unresolved. Check back
+# on that ticket thread to see the status, and remove the retry after the
+# resolution. Also, see https://github.com/sleepio/docker-serverless/pull/30 for
+# more context.
 RUN for retry in `seq 1 ${NPM_MAX_RETRY}` ; do \
     if npm install -g serverless@${SERVERLESS_VERSION} --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000 --ignore-scripts spawn-sync ; \
     then echo "Install serverless@${SERVERLESS_VERSION} successful" ; break ; \
@@ -54,7 +59,7 @@ RUN for retry in `seq 1 ${NPM_MAX_RETRY}` ; do \
 
 COPY . /var
 
-# See the note on `npm install` above.
+# See the note by TS on `npm install` above.
 RUN cd /var && \
     for retry in `seq 1 ${NPM_MAX_RETRY}` ; do \
     if npm install --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000 ; \
