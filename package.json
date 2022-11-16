@@ -9,7 +9,7 @@
     "serverless-plugin-scripts": "1.0.2",
     "serverless-plugin-datadog": "2.4.0",
     "serverless-plugin-log-subscription": "1.4.0",
-    "serverless-provisioned-concurrency-autoscaling": "1.2.0"
+    "serverless-provisioned-concurrency-autoscaling": "1.9.1"
   },
   "devDependencies": {},
   "scripts": {
