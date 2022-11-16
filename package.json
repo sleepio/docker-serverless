@@ -7,7 +7,7 @@
     "serverless-python-requirements": "4.1.1",
     "serverless-plugin-aws-alerts": "1.7.4",
     "serverless-plugin-scripts": "1.0.2",
-    "serverless-plugin-datadog": "2.4.0",
+    "serverless-plugin-datadog": "2.34.1",
     "serverless-plugin-log-subscription": "1.4.0",
     "serverless-provisioned-concurrency-autoscaling": "1.2.0"
   },
