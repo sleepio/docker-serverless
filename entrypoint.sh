@@ -4,8 +4,15 @@ ENV_FILE="/var/task/.env.yml"
 DOCKER_SERVERLESS_BUILD_ENV_FILE="/var/.env.docker_serverless_build.yml"
 PROJECT_GENERATION_ENV_FILE="/var/task/.env.project_generation.yml"
 
+# Set the required Docker mount path in order to run the in-Docker `pip install` 
 sed -i "s|\${bindPath}:|${SERVICE_PATH}:|g" /var/node_modules/serverless-python-requirements/lib/pip.js
+# Supply the GIT_TOKEN env var for the in-Docker `pip install`
 sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOKEN}'); if \(options.dockerSsh\)/g" /var/node_modules/serverless-python-requirements/lib/pip.js
+
+# Set the Lambda function runtime for custom-resource-existing-s3 to the desired NodeJS version
+S3_EXISTING_RESOURCE_NODEJS_VERSION="nodejs18.x"
+S3_EXISTING_RESOURCE_INDEX_JS="serverless/lib/plugins/aws/customResources/index.js"
+sed -i -E "s/Runtime: 'nodejs[0-9]+.x'/Runtime: '${S3_EXISTING_RESOURCE_NODEJS_VERSION}'/g" /var/node_modules/${S3_EXISTING_RESOURCE_INDEX_JS}
 
 if [[ $@ = *"--no-publish"* ]]; then export NO_PUBLISH=true; else export NO_PUBLISH=false; fi
 
