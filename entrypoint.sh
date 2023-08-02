@@ -9,13 +9,6 @@ sed -i "s|\${bindPath}:|${SERVICE_PATH}:|g" /var/node_modules/serverless-python-
 # Supply the GIT_TOKEN env var for the in-Docker `pip install`
 sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOKEN}'); if \(options.dockerSsh\)/g" /var/node_modules/serverless-python-requirements/lib/pip.js
 
-# Set the Lambda function runtime for custom-resource-existing-s3 to the desired NodeJS version
-# S3_EXISTING_RESOURCE_NODEJS_VERSION="nodejs18.x"
-# S3_EXISTING_RESOURCE_INDEX_JS="/var/node_modules/serverless/lib/plugins/aws/customResources/index.js"
-# if [ -f ${S3_EXISTING_RESOURCE_INDEX_JS} ]; then
-#     sed -i -E "s/Runtime: 'nodejs[0-9]+.x'/Runtime: '${S3_EXISTING_RESOURCE_NODEJS_VERSION}'/g" ${S3_EXISTING_RESOURCE_INDEX_JS}
-# fi
-
 if [[ $@ = *"--no-publish"* ]]; then export NO_PUBLISH=true; else export NO_PUBLISH=false; fi
 
 if [[ ! $@ = *"--no-env"* ]] && [ $1 = "deploy" ]; then
