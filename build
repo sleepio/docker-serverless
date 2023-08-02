@@ -3,3 +3,5 @@
 [ -e get-env.sh ] && . get-env.sh docker_serverless_build
 docker build --build-arg SERVERLESS_VERSION=1.70.0 -t serverless:latest -t docker-serverless:latest -t docker-serverless:1.70.0 .
 docker build --build-arg SERVERLESS_VERSION=2.13.0 -t docker-serverless:2.13.0 .
+docker build --build-arg SERVERLESS_VERSION=2.72.4 -t docker-serverless:2.72.4 .
+
