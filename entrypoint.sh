@@ -11,8 +11,10 @@ sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOK
 
 # Set the Lambda function runtime for custom-resource-existing-s3 to the desired NodeJS version
 S3_EXISTING_RESOURCE_NODEJS_VERSION="nodejs18.x"
-S3_EXISTING_RESOURCE_INDEX_JS="serverless/lib/plugins/aws/customResources/index.js"
-sed -i -E "s/Runtime: 'nodejs[0-9]+.x'/Runtime: '${S3_EXISTING_RESOURCE_NODEJS_VERSION}'/g" /var/node_modules/${S3_EXISTING_RESOURCE_INDEX_JS}
+S3_EXISTING_RESOURCE_INDEX_JS="/var/node_modules/serverless/lib/plugins/aws/customResources/index.js"
+if [ -f ${S3_EXISTING_RESOURCE_INDEX_JS} ]; then
+    sed -i -E "s/Runtime: 'nodejs[0-9]+.x'/Runtime: '${S3_EXISTING_RESOURCE_NODEJS_VERSION}'/g" ${S3_EXISTING_RESOURCE_INDEX_JS}
+fi
 
 if [[ $@ = *"--no-publish"* ]]; then export NO_PUBLISH=true; else export NO_PUBLISH=false; fi
 
