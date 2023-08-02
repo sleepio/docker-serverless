@@ -10,7 +10,12 @@ phases:
   build:
     commands:
       - ${CODEBUILD_SRC_DIR}/get-env.sh docker_serverless_build
-      - docker build --build-arg SERVERLESS_VERSION=2.72.4 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:2.72.4
+      - docker build --build-arg SERVERLESS_VERSION=1.70.0 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:1.70.0
+      - docker build --build-arg SERVERLESS_VERSION=2.13.0 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:2.13.0
+      - docker build --build-arg SERVERLESS_VERSION=2.72.4 ${CODEBUILD_SRC_DIR} --tag ${IMAGE_REPO_URI}:2.72.4 --tag ${IMAGE_REPO_URI}:latest
   post_build:
     commands:
+      - docker push ${IMAGE_REPO_URI}:1.70.0
+      - docker push ${IMAGE_REPO_URI}:2.13.0
       - docker push ${IMAGE_REPO_URI}:2.72.4
+      - docker push ${IMAGE_REPO_URI}:latest
