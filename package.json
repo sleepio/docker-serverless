@@ -1,15 +1,14 @@
 {
-  "name": "serverless-project",
-  "version": "1.0.0",
+  "name": "docker-serverless",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "serverless-python-requirements": "4.1.1",
-    "serverless-plugin-aws-alerts": "1.7.4",
+    "serverless-python-requirements": "5.4.0",
+    "serverless-plugin-aws-alerts": "1.7.5",
     "serverless-plugin-scripts": "1.0.2",
-    "serverless-plugin-datadog": "2.4.0",
-    "serverless-plugin-log-subscription": "1.4.0",
-    "serverless-provisioned-concurrency-autoscaling": "1.2.0"
+    "serverless-plugin-datadog": "2.34.1",
+    "serverless-plugin-log-subscription": "2.2.0"
   },
   "devDependencies": {},
   "scripts": {
