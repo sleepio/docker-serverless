@@ -6,8 +6,6 @@ PROJECT_GENERATION_ENV_FILE="/var/task/.env.project_generation.yml"
 
 # Set the required Docker mount path in order to run the in-Docker `pip install` 
 sed -i "s|\${bindPath}:|${SERVICE_PATH}:|g" /var/node_modules/serverless-python-requirements/lib/pip.js
-# Supply the GIT_TOKEN env var for the in-Docker `pip install`
-sed -i -E "s/if \(options.dockerSsh\)/cmdOptions.push('-e', 'GIT_TOKEN=${GIT_TOKEN}'); if \(options.dockerSsh\)/g" /var/node_modules/serverless-python-requirements/lib/pip.js
 
 if [[ $@ = *"--no-publish"* ]]; then export NO_PUBLISH=true; else export NO_PUBLISH=false; fi
 
