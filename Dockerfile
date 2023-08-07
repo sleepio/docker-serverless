@@ -30,11 +30,13 @@ RUN rm /var/cache/apk/*
 WORKDIR /var/task
 
 RUN npm install -g try-thread-sleep
-RUN npm install -g serverless@${SERVERLESS_VERSION} --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000 --ignore-scripts spawn-sync
 
 COPY . /var
 
 RUN cd /var && npm install --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000
+
+# Serverless gets installed already by `npm install` with package.json, but this makes it available globally
+RUN npm install -g serverless@${SERVERLESS_VERSION} --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000 --ignore-scripts spawn-sync
 
 ENV NODE_PATH=/var
 
