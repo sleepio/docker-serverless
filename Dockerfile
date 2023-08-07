@@ -1,7 +1,7 @@
 FROM node:lts-alpine3.17
 MAINTAINER Yannis Panousis <yannis@bighealth.com>
 
-ARG SERVERLESS_VERSION=2.13.0
+ARG SERVERLESS_VERSION=3.34.0
 
 RUN apk update
 RUN apk upgrade
@@ -33,7 +33,9 @@ RUN npm install -g try-thread-sleep
 
 COPY . /var
 
-RUN cd /var && npm install --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000
+RUN cd /var && \
+    sed -i "s/\"serverless\": .*,/\"serverless\": \"${SERVERLESS_VERSION}\",/g" package.json && \
+    npm install --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000
 
 # Serverless gets installed already by `npm install` with package.json, but this makes it available globally
 RUN npm install -g serverless@${SERVERLESS_VERSION} --registry=https://registry.npmjs.org --prefer-offline=true --fetch-retries=5 --fetch-timeout=600000 --ignore-scripts spawn-sync
