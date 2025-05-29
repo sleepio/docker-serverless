@@ -1,5 +1,4 @@
-FROM node:lts-alpine3.17
-MAINTAINER Yannis Panousis <yannis@bighealth.com>
+FROM node:lts-alpine3.21
 
 ARG SERVERLESS_VERSION=3.34.0
 
@@ -13,16 +12,11 @@ RUN apk add --no-cache --update \
     git
 
 RUN apk add --no-cache docker && \
-    apk add --no-cache python3-dev && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip setuptools==47.3.1 && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache
+    apk add --no-cache python3-dev py3-pip
 
-RUN pip install --upgrade pip
-RUN pip install awscli
+# --break-system-packages is needed to avoid the error https://peps.python.org/pep-0668/
+RUN pip install --upgrade pip --break-system-packages
+RUN pip install awscli --break-system-packages
 
 RUN mkdir -p /var/task
 RUN rm /var/cache/apk/*
